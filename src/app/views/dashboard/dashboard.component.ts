@@ -5,6 +5,7 @@ import { DashboardService } from './dashboard.service';
 import { Raw } from '../../Class/Raw.class';
 import { map } from "rxjs/operators";
 import { element } from 'protractor';
+import { Statewise } from '../../Class/total.class';
 
 
 @Component({
@@ -12,9 +13,13 @@ import { element } from 'protractor';
 })
 export class DashboardComponent implements OnInit {
   private Total_Case;
+  private incresed_Total_Case;
   private Recovered;
+  private incresed_Recovered;
   private Daths;
+  private incresed_Daths;
   private Active;
+  private state: Statewise[] = [];
   index = 0;
 
   constructor(private dash: DashboardService) { }
@@ -23,11 +28,21 @@ export class DashboardComponent implements OnInit {
     this.dash.getTotalData()
     .pipe(map(data => {
       this.index = data.cases_time_series.length-1;
-      this.Total_Case = data.cases_time_series[this.index].totalconfirmed;
-      this.Recovered = data.cases_time_series[this.index].totalrecovered;
-      this.Daths = data.cases_time_series[this.index].totaldeceased;
+      this.Total_Case = data.statewise[0].confirmed;
+      this.Recovered = data.statewise[0].recovered;
+      this.Daths = data.statewise[0].deaths;
       this.Active = data.statewise[0].active;
+      this.incresed_Total_Case = this.Total_Case - (+data.cases_time_series[this.index].totalconfirmed);
+      this.incresed_Recovered = this.Recovered - (+data.cases_time_series[this.index].totalrecovered)
+      this.incresed_Daths = this.Daths - (+data.cases_time_series[this.index].totaldeceased)
       
+    }))
+    .subscribe();
+    this.dash.getState()
+    .pipe(map(data => {
+      data.statewise.forEach(element => {
+        this.state.push(element);
+      })
     }))
     .subscribe();
     for (let i = 0; i <= this.mainChartElements; i++) {
