@@ -105,26 +105,32 @@
         <th>Deceased</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor = "let stat of state">
+    <tbody *ngFor = "let stat of state" >
+      <tr 
+      style="cursor: pointer;">
         <td>
           <div>{{stat.state}}</div>
-        </td>
+        </td> 
         <td class="text-center">
-          <div>{{stat.confirmed}}</div>
+            <span class="badge badge-danger" *ngIf="stat.deltaconfirmed > 0 ">[+{{stat.deltaconfirmed}}]</span>
+            <div style="text-align: center;">{{stat.confirmed}}</div>
         </td>
         <td>
           <div>{{stat.active}}</div>
         </td>
         <td class="text-center">
+          <span class="badge badge-success" *ngIf="stat.deltarecovered > 0 ">[+{{stat.deltarecovered}}]</span>
           <div>{{stat.recovered}}</div>
         </td>
         <td>
+          <span class="badge badge-danger" *ngIf="stat.deltadeaths > 0 ">[+{{stat.deltadeaths}}]</span>
           <div>{{stat.deaths}}</div> 
-        </td>
-      </tr>
+        </td> 
+      </tr>   
     </tbody>
+    
   </table>
+    
   <div class="card">
     <div class="card-body">
       <div class="row">

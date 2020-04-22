@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { DashboardService } from './dashboard.service';
-import { Raw } from '../../Class/Raw.class';
 import { map } from "rxjs/operators";
 import { element } from 'protractor';
 import { Statewise } from '../../Class/total.class';
@@ -38,11 +37,18 @@ export class DashboardComponent implements OnInit {
       
     }))
     .subscribe();
+
     this.dash.getState()
     .pipe(map(data => {
       data.statewise.forEach(element => {
         this.state.push(element);
       })
+    }))
+    .subscribe();
+
+    this.dash.getDistrict()
+    .pipe(map(data => {
+      console.log(data);
     }))
     .subscribe();
     for (let i = 0; i <= this.mainChartElements; i++) {

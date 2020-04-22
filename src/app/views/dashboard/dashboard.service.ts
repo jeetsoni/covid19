@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Raw } from '../../Class/Raw.class';
-import { Recovery_Dath } from '../../Class/recovery_dath.class';
 import { Total } from '../../Class/total.class';
 import { State } from '../../Class/state.class';
+import { District } from '../../Class/district.class';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +19,9 @@ export class DashboardService {
   {
     return this.http.get<State>('https://api.covid19india.org/data.json');
   }
-  getRawData()
+  getDistrict()
   {
-    return this.http.get<Raw>('https://api.covid19india.org/raw_data.json')
-    
-  }
-  getRecovered()
-  {
-   return this.http.get<Recovery_Dath>('https://api.covid19india.org/deaths_recoveries.json');
+    return this.http.get<District>('https://api.covid19india.org/v2/state_district_wise.json');
   }
 
 }
